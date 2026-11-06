@@ -1,0 +1,50 @@
+{
+  "name": "ms-code",
+  "displayName": "MS Code",
+  "description": "Advanced AI coding agent — multi-provider (OpenAI-compatible, Anthropic, Gemini, custom base URL), auto execution, model discovery, modern animated UI.",
+  "version": "1.0.0",
+  "publisher": "mscode",
+  "license": "MIT",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["AI", "Chat", "Programming Languages", "Snippets"],
+  "main": "./dist/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      { "command": "mscode.openChat", "title": "MS Code: Open Agent", "icon": "media/icon.svg" },
+      { "command": "mscode.addProvider", "title": "MS Code: Add Provider" },
+      { "command": "mscode.setExecutionMode", "title": "MS Code: Set Execution Mode" }
+    ],
+    "viewsContainers": {
+      "activitybar": [{ "id": "mscode", "title": "MS Code", "icon": "media/icon.svg" }]
+    },
+    "views": {
+      "mscode": [{ "type": "webview", "id": "mscode.chatView", "name": "Agent" }]
+    },
+    "configuration": {
+      "title": "MS Code",
+      "properties": {
+        "mscode.executionMode": {
+          "type": "string",
+          "enum": ["safe", "hybrid", "auto"],
+          "default": "auto",
+          "description": "Agent execution mode. Auto = agent runs file edits & commands itself."
+        },
+        "mscode.commandTimeoutMs": { "type": "number", "default": 120000 },
+        "mscode.maxAgentSteps": { "type": "number", "default": 40 },
+        "mscode.allowOutsideWorkspace": { "type": "boolean", "default": false }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "npm run compile && npx @vscode/vsce package --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.4.0"
+  }
+}
